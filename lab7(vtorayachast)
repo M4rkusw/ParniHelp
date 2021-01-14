@@ -5,50 +5,74 @@
 #define PART 1
 
 #elif PART == 1
+#define M 81
 int main()
 {
-    short int n, i, j, count, k, q, z, s;
-    const char glass[]="AEIOUYaeiouy";
-
-    do {
+    int N, i, j, y, count = 0, k, flag, l, n, q, flag_vowels = 0;
+    char buff[M];
+    const char glas[]="AEIOUYaeiouy";
+    char div[] = " ,.;:!?\n\t";
+        do {
         SetConsoleCP(1251);
 	    SetConsoleOutputCP(1251);
         printf("Введите количество строк: ");
-        while (scanf("%hd", &n)!=1) {
+        while (scanf("%d", &N)!=1) {
             while (getchar()!='\n');
             printf("Введены неверные данные!\nВведите количество строк: ");
         }
-        if (n>6) printf("Максимальное количество строк - 6.\nВведите количество строк: ");
-        if (n<1) printf("Минимальное количество строк - 1.\nВведите количество строк: ");
-    } while(n>6||n<1);
+        if (N>6) printf("Максимальное количество строк - 6.\nВведите количество строк: ");
+        if (N<1) printf("Минимальное количество строк - 1.\nВведите количество строк: ");
+    } while(N>6||N<1);
+    char str[N][M];
     getchar();
-    char str[n][81], result[n][81];
-    for (i=0;i<n;i++) {
+for (i=0;i<N;i++) {
             do {
                 for (j=0;j<81;str[i][j++]='\0');
                 printf("Введите строку %hd (не более 80 символов): ", i);
                 gets(str[i]);
                 if (strlen(str[i])>=81&&str[i][80]!='\0') printf("Введено больше 80 символов!\n");
             } while (strlen(str[i])>=81&&str[i][80]!='\0'); }
-            printf ("Введите количество гласных");
-            scanf ("%hd",&k);
-            getchar ();
-            q=0;
-            for (i=0;i<n;i++) {
-                for (j=0;j<81;j++) {
-                    if (str[j]!=' ') {
-                    for (s=0;s<13;s++){
-                        if (str[j]==glass[s])
-                        count++;
-                        } z=j;
-            } else if (count=k) {for (;q<z+1;q++)
-            result[i][q]=str[i][q];}
-            else {q=j;
-            count=0;
-}
+    puts("Введите число гласных:");
+    while(1 != scanf("%d", &n) || n < 0){
+        fprintf(stderr, "Ошибка.Повторите Снова!");
+        getchar();
+    }
+    for(i = 0; i < N; i++){
+        for(j = k = l = flag = 0; str[i][j]; j++){
+            for(y = 0; div[y]; y++){
+                if(str[i][j] == div[y]){
+                    if(!flag){
+                        while(k < j){
+                            buff[l++] = str[i][k++];
+                        }
+                        buff[l] = '\0';
+                        if(buff[0]){
+                            for(count = q = 0; buff[q]; q++)
+                                for(int i = 0; glas[i ]; i++)
+                                    if(buff[q] == glas[i]){
+                                        count++;
+                                        break;
+                                    }
+                            if(count == n){
+                                printf("Слово %s содержит %d гласные\n", buff, count);
+                                flag_vowels = 1;
+                            }
+                        }
+                        l = 0;
+                        k++;
+                        flag = 1;
+                        break;
+                    }
+                    else
+                        k++;
                 }
             }
-    puts(result[i]);
+            if(!div[y])
+                flag = 0;
+            }
+    }
+    if(!flag_vowels)
+        printf("Нет слов содержащих %d гласные\n", n);
     return 0;
 }
 #endif
